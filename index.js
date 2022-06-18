@@ -1,14 +1,6 @@
-for (var i = 0; i < document.querySelectorAll(".drum").length; i++) {
-  document.querySelectorAll("button")[i].addEventListener("click", handleClick);
-}
-
-function handleClick() {
-  var audio = new Audio("sounds/tom-1.mp3");
-  audio.play();
-
-  var buttonInnerHTML=this.innerHTML;
-
-  switch (buttonInnerHTML) {
+//Function to play sound on key press or click
+function makeSound(key) {
+  switch (key) {
 
     case "w":
       var tom1 = new Audio("sounds/tom-1.mp3");
@@ -46,6 +38,78 @@ function handleClick() {
     break;
 
     default:
-      console.log(buttonInnerHTML);
+      console.log(key);
   }
 }
+
+//Button buttonAnimation
+function buttonAnimation(currentKey) {
+  var activeButton = document.querySelector("." + currentKey);
+  activeButton.classList.add("pressed");
+
+  setTimeout(function() {
+    activeButton.classList.remove("pressed");
+  }, 100);
+}
+
+//Detecting Button press/click
+for (var i = 0; i < document.querySelectorAll(".drum").length; i++) {
+  document.querySelectorAll("button")[i].addEventListener("click", handleClick);
+}
+
+function handleClick() {
+  var audio = new Audio("sounds/tom-1.mp3");
+  audio.play();
+
+  var buttonInnerHTML=this.innerHTML;
+  makeSound(buttonInnerHTML);
+  buttonAnimation(buttonInnerHTML);
+}
+
+//Detecting Keyboard Press
+document.addEventListener("keydown", function(event){
+
+  makeSound(event.key);
+  buttonAnimation(event.key);
+  //Using event.code method
+  //var code=event.code;
+  // switch (code) {
+  //
+  //   case 'KeyW':
+  //     var tom1 = new Audio("sounds/tom-1.mp3");
+  //     tom1.play();
+  //   break;
+  //   case 'KeyA':
+  //     var tom2 = new Audio("sounds/tom-2.mp3");
+  //     tom2.play();
+  //   break;
+  //
+  //   case "KeyS":
+  //     var tom3 = new Audio("sounds/tom-3.mp3");
+  //     tom3.play();
+  //   break;
+  //
+  //   case "KeyD":
+  //     var tom4 = new Audio("sounds/tom-4.mp3");
+  //     tom4.play();
+  //   break;
+  //
+  //   case "KeyJ":
+  //     var snare = new Audio("sounds/snare.mp3");
+  //     snare.play();
+  //   break;
+  //
+  //   case "KeyK":
+  //     var crash = new Audio("sounds/crash.mp3");
+  //     crash.play();
+  //   break;
+  //
+  //   case "KeyL":
+  //     var kick = new Audio("sounds/kick-bass.mp3");
+  //     kick.play();
+  //   break;
+  //
+  //   default:
+  //     console.log(event);
+  // }
+});
